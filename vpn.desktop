@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=VPN
+Exec=vpn
+Comment=
+Terminal=true
+Icon=/home/nilson/Images/Icons/vpn.png
+Type=Application
+

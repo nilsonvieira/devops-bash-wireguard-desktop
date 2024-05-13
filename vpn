@@ -1,0 +1,31 @@
+#!/bin/bash
+
+#touch $HOME/wg_files
+#sudo ls /etc/wireguard/ > $HOME/wg_files
+
+unset list
+while read -r line
+do
+    list+=("FALSE")
+    list+=("$line")
+done < $HOME/wg_files
+
+for entry in 0 
+do
+    list[entry]="TRUE"
+done
+
+ans=$(zenity --list --text "Qual arquivo de VPN deseja Executar?" --radiolist --column "Check" --column "Arquivo" "${list[@]}" --separator=":")
+ans2=`echo $ans | awk -F "." '{print$1}'`
+
+zenity --question --ok-label="Iniciar" --cancel-label="Parar" --text="O que deseja Fazer?"
+STATUS=$?
+
+case $STATUS in 
+    0) systemctl start wg-quick@$ans2 ;
+    ;;
+    1) systemctl stop wg-quick@$ans2;
+    ;;
+    *) zenity --error --text="Ocorreu um Erro! Tente novamente!" ; exit ;
+    ;;
+esac
